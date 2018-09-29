@@ -11,11 +11,13 @@
     "max-line-length": {
         "options": [120]
     },
+    "ordered-imports": false,
     "new-parens": true,
     "no-arg": true,
     "no-bitwise": true,
     "no-conditional-assignment": true,
     "no-consecutive-blank-lines": false,
+    "no-debugger": false,
     "no-console": {
         "severity": "warning",
         "options": [
