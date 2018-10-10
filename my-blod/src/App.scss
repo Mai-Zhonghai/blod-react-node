@@ -1,0 +1,13 @@
+@import '~antd/dist/antd.css';  /*预留问题 需按需加载*/
+
+.slidebar-container {
+  height: 100%;
+  width: 150px;
+  background: #001529;
+  margin-bottom: -9000px;
+  padding-bottom: 9000px;
+  overflow-y: hidden;
+  &.hideSidebar {
+    width: 64px;
+  }
+}

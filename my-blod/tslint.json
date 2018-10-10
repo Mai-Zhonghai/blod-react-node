@@ -12,6 +12,8 @@
         "options": [120]
     },
     "ordered-imports": false,
+    "object-literal-sort-keys": false,
+    "member-ordering": false,
     "new-parens": true,
     "no-arg": true,
     "no-bitwise": true,
@@ -23,7 +25,6 @@
         "options": [
             "debug",
             "info",
-            "log",
             "time",
             "timeEnd",
             "trace"
