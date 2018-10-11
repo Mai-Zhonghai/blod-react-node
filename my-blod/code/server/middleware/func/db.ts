@@ -80,7 +80,7 @@ export const find = (model: any, conditions: any, fields: any, options: any) => 
  * @param options
  * @param callback
  */
-export const findOne = (model: any, conditions: any, fields: any, options: any) => {
+export const findOne = (model: any, conditions: any, fields: any, options: any = {}) => {
     var sort = options.sort == undefined ? { _id: -1 } : options.sort;
     delete options.sort;
     

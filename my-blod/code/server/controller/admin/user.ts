@@ -2,7 +2,7 @@ import * as jwt from 'jsonwebtoken';
 import conf from '../../config';
 import userModel from '../../models/user';
 
-module.exports = {
+const user = {
     async login(ctx: any, next: any) {
         console.log('-------登录接口 user/login--------');
         let { username, pwd } = ctx.request.body;
@@ -39,5 +39,49 @@ module.exports = {
             ctx.throw(e);
             ctx.sendError(e);
         }
+    },
+    async info(ctx: any, next: any) {
+        console.log('-------获取用户信息接口 user/getUserInfo-------');
+        let token = ctx.request.query.token;
+        try {
+            let tokenInfo: any = jwt.verify(token, conf.auth.admin_secret);
+            console.log(tokenInfo);
+            ctx.send({
+                username: tokenInfo.username,
+                name: tokenInfo.name,
+                _id: tokenInfo._id,
+                roles: tokenInfo.roles
+
+            })
+        } catch (e) {
+            if ('TokenExpiredError' === e.name) {
+                ctx.sendError('鉴定失败，请重新登录！');
+                ctx.throw(401, 'token expired,请及时本地保存数据！');
+            }
+            ctx.throw(401, 'invalid token');
+            ctx.sendError('系统异常！');
+        }
+    },
+    async list(ctx: any, next: any) {
+        console.log('-------获取用户信息列表接口 user/getUsrList----------');
+        let { keyword, pageindex = 1, pagesize = 10 } = ctx.request.query;
+        console.log('keyword:' + keyword + ',' + 'pageindex:' + pageindex + ',' + 'pagesize:' + pagesize);
+
+        try {
+            let reg = new RegExp(keyword, 'i');
+            let data = await ctx.findPage(userModel, {
+                $or: [
+                    { name: { $regex: reg } },
+                    { username: { $regex: reg } }
+                ]
+            }, { pwd: 0 }, { limit: pagesize * 1, skip: (pageindex - 1) * pagesize });
+
+            ctx.send(data);
+        } catch (e) {
+            console.log(e);
+            ctx.sendError(e);
+        }
     }
 }
+
+export default user;

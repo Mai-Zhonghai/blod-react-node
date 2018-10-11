@@ -1,8 +1,9 @@
 import * as path from 'path';
 import * as bodyParser from 'koa-bodyparser';
 import * as staticFiles from 'koa-static';
-import Auth from './auth';
+import Auth from './auth/index';
 import Func from './func';
+import Send from './send/index';
 
 export default (app: any) => {
     //缓存拦截器
@@ -23,6 +24,9 @@ export default (app: any) => {
 
     //权限中间
     app.use(Auth());
+
+    //响应形式
+    app.use(Send());
 
     //post请求中间件
     app.use(bodyParser());
